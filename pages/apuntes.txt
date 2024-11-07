@@ -1,0 +1,10 @@
+dict1 = {'a': 1, 'b': 2, 'c': 3}
+dict2 = {'a': 4, 'b': 5, 'c': 6}
+
+# Usamos un diccionario por comprensión para juntar los valores en una lista
+combined_dict = {key: [dict1[key], dict2[key]] for key in dict1}
+
+# Mostrar el diccionario combinado
+print(combined_dict)
+
+esta funcion puede ser de mucha ayuida para crear los data frames
