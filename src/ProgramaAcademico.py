@@ -5,7 +5,7 @@ import Settings as settings
 ut = Utilidad()
 
 class ProgramaAcademico:
-    def __innit__(self):
+    def __init__(self):
         self.atributos = {}
         self.consolidados = {}
 

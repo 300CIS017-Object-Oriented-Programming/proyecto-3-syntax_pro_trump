@@ -1,7 +1,7 @@
 import re
 
 class Utilidad:
-    def __innit__(self):
+    def __init__(self):
         pass
 
     def minusculas_sin_espacios(self, cadena):
