@@ -15,7 +15,7 @@ class GestorArchivos:
 
             # Filtrar las filas que contienen la palabra clave en la columna especificada
             df_filtrado = df[df["PROGRAMA ACADÉMICO"].str.contains(palabra_clave, case=False, na=False)]
-            columnas_predeterminadas = ["CÓDIGO SNIES DEL PROGRAMA", "ID SEXO", "AÑO", "SEMESTRE"]
+            columnas_predeterminadas = ["CÓDIGO SNIES DEL PROGRAMA", "ID SEXO", "SEXO", "AÑO", "SEMESTRE"]
 
             if solo_ultima_columna:
                 # Seleccionar la última columna y mantener su nombre original
