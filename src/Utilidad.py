@@ -6,8 +6,8 @@ class Utilidad:
 
     def minusculas_sin_espacios(self, cadena):
         # Usamos re.sub para reemplazar todos los caracteres no alfanuméricos con una cadena vacía
-        resultado = re.sub(r'[^a-zA-Z0-9]', '', cadena)
-        return resultado.lower()
+        resultado_n = re.sub(r'[^a-zA-Z0-9]', '', cadena)
+        return resultado_n.lower()
 
     def string_to_int(self, cadena):
         try:
