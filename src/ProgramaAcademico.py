@@ -1,5 +1,5 @@
-from Utilidad import Utilidad
-import Settings as settings
+from src.Utilidad import *
+#import Settings as settings
 
 #Definimos un objeto de la clase utilidad para ayudarnos
 ut = Utilidad()

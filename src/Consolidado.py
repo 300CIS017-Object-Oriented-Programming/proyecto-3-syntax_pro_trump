@@ -1,4 +1,4 @@
-from Utilidad import Utilidad
+from src.Utilidad import *
 #definimos un objeto para la clase utilidad
 ut = Utilidad()
 

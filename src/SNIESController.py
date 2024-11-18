@@ -1,9 +1,9 @@
-from ProgramaAcademico import ProgramaAcademico
-from Consolidado import Consolidado
-from Utilidad import *
+from src.ProgramaAcademico import *
+from src.Consolidado import *
+from src.Utilidad import *
 import pandas as pd
 from pprint import pprint
-from src.GestorArchivos import GestorArchivos
+from src.GestorArchivos import *
 
 ut = Utilidad()
 lector = GestorArchivos()
