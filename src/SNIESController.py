@@ -9,24 +9,56 @@ ut = Utilidad()
 lector = GestorArchivos()
 class SNIESController:
     def __init__(self):
-        self.programas_academicos = {}
-
+        self.df = None
 
     def procesar_datos(self, anio1, anio2, palabra_clave):
-        anios = self.generar_anios_busqueda(anio1, anio2)
-        df_filtrado1 = lector.leer_archvivo(LISTA_DIRECCIONES[0] + anios[0] + ".xlsx", palabra_clave, False)
-        self.crear_programas(df_filtrado1)
-        flag = False
-        for direccion in LISTA_DIRECCIONES:
+        """
+        Procesa datos de múltiples archivos Excel y los combina en un único DataFrame.
+
+        Args:
+            anio1 (int): Año inicial.
+            anio2 (int): Año final.
+            palabra_clave (str): Palabra clave para filtrar programas.
+
+        Returns:
+            pd.DataFrame: DataFrame combinado con los datos procesados.
+        """
+        try:
+            # Generar lista de años
+            anios = self.generar_anios_busqueda(anio1, anio2)
+            self.df = lector.leer_archivo(LISTA_DIRECCIONES[0]+anios[0]+".xlsx", palabra_clave, False)
+            # Iterar por los archivos adicionales
+            flag = True
             for anio in anios:
-                if flag:
-                    df_filtrado2 = lector.leer_archvivo(direccion + anio + ".xlsx", palabra_clave, True)
-                    self.asignar_consolidados(df_filtrado2)
-                else:
-                    flag = True
+                for direccion in LISTA_DIRECCIONES:
+                    ruta_archivo = direccion + anio + ".xlsx"
+
+                    # Leer archivo con la función 'lector'
+                    df_filtrado = lector.leer_archivo(ruta_archivo, palabra_clave, True)
+
+                    if not flag:
+                        # Caso especial: primer año (primer elemento de 'anios')
+                        if anio == anios[0]:  # Comparar con el primer año de la lista
+                            # Agregar solo la última columna
+                            ultima = df_filtrado.columns[-1]  # Nombre de la última columna
+                            ultima_columna = df_filtrado[[ultima]]  # Seleccionar la última columna
+                            self.df = pd.concat([self.df, ultima_columna], axis=1)
+                        else:
+                            # Concatenar todo el DataFrame filtrado
+                            self.df = pd.concat([self.df, df_filtrado], axis=1)
+                    else:
+                        # Flag activado: solo para el primer archivo
+                        flag = False
+
+            return self.df
+
+        except Exception as e:
+            print(f"Error al procesar los datos: {e}")
+            return pd.DataFrame()
+
     #Funcion de prueba
     def mostrar(self):
-        pprint(self.programas_academicos)
+        print(self.df)
 
     def crear_programas(self, df_filtrado):
         # Creación de un diccionario para los programas académicos, evitamos acceder repetidamente a `self.programas_academicos`
