@@ -6,6 +6,7 @@ lector = GestorArchivos()
 class SNIESController:
     def __init__(self):
         self.df = None
+        self.df_junto = None
 
     def procesar_datos(self, anio1, anio2, palabra_clave):
         """
@@ -65,8 +66,18 @@ class SNIESController:
     def set_df(self, df):
         self.df = df
 
+    def set_df_junto(self, df):
+        columnas_predeterminadas = [STR_CODIGO_SNIES, STR_METODOLOGIA, STR_PROGRAMA_ACADEMICO,
+                                    STR_NOMBRE_IES, STR_TIPO_IES, STR_DEPARTAMENTO,
+                                    STR_MUNICIPIO, STR_NIVEL_FORMACION]
+        df_junto = df.groupby(columnas_predeterminadas).sum(numeric_only=True).reset_index()
+        self.df_junto = df_junto
+
     def get_df(self):
         return self.df
+
+    def get_df_junto(self):
+        return self.df_junto
 
     def generar_anios_busqueda(self, anio1, anio2):
         """

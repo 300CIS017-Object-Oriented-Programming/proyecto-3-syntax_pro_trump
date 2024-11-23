@@ -27,7 +27,7 @@ def gestion_archivos():
     st.subheader("Carga de Archivos")
     uploaded_file = st.file_uploader("Subir archivos", type="xlsx")
     if uploaded_file:
-        pass
+        default_files.append(uploaded_file)
 
 gestion_archivos()
 

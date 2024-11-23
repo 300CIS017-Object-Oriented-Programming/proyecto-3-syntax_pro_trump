@@ -56,6 +56,7 @@ def filtrado_de_info(controlador):
 
             if st.button("Actualizar datos"):
                 controlador.set_df(df_filtrado)
+                controlador.set_df_junto(df_filtrado)
 
             # Botón para exportar la selección
             if st.button("Exportar Selección a Excel"):
