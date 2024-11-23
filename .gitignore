@@ -97,6 +97,7 @@ docker-compose.override.yml
 *.xlsx
 *.xls
 !docs/inputs/*.xlsx
+docs/outputs
 
 # Ignore CSV files
 *.csv
