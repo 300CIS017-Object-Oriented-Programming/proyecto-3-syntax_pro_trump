@@ -1,11 +1,11 @@
-OUTPUT_PATH = "C:/SNIES_EXTRACTOR/outputs/"
-
+BASE_PATH = "docs/inputs"
+OUTPUT_PATH = "docs/outputs"
 LISTA_DIRECCIONES = [
-        "C:/SNIES_EXTRACTOR/inputs/admitidos",
-        "C:/SNIES_EXTRACTOR/inputs/graduados",
-        "C:/SNIES_EXTRACTOR/inputs/inscritos",
-        "C:/SNIES_EXTRACTOR/inputs/matriculados",
-        "C:/SNIES_EXTRACTOR/inputs/matriculadosPrimerCurso"
+        BASE_PATH + "/admitidos",
+        BASE_PATH + "/graduados",
+        BASE_PATH + "/inscritos",
+        BASE_PATH + "/matriculados",
+        BASE_PATH + "/matriculadosPrimerCurso"
     ]
 
 STR_CODIGO_SNIES = "CÓDIGO SNIES DEL PROGRAMA"

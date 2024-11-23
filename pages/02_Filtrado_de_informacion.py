@@ -2,8 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-from src.Settings import STR_PROGRAMA_ACADEMICO, STR_NOMBRE_IES, STR_CODIGO_SNIES, STR_DEPARTAMENTO, STR_MUNICIPIO, \
-    OUTPUT_PATH, STR_TIPO_IES
+from src.Settings import *
 
 
 def filtrado_de_info(controlador):
@@ -13,7 +12,7 @@ def filtrado_de_info(controlador):
 
     # Sección 2: Parámetros de Análisis
     st.subheader("Parámetros de análisis")
-    years = st.slider("Seleccione el rango de años", min_value=2020, max_value=2023, value=(2020, 2021))
+    years = st.slider("Seleccione el rango de años", min_value=2016, max_value=2023, value=(2020, 2021))
 
     # Botón para realizar la búsqueda
     if st.button("Realizar primera búsqueda"):
@@ -60,7 +59,7 @@ def filtrado_de_info(controlador):
 
             # Botón para exportar la selección
             if st.button("Exportar Selección a Excel"):
-                df_filtrado.to_excel(OUTPUT_PATH + "programas_seleccionados.xlsx", index=False)
+                df_filtrado.to_excel(OUTPUT_PATH + "/programas_seleccionados.xlsx", index=False)
                 st.success("¡Archivo Excel generado con éxito!")
 
 

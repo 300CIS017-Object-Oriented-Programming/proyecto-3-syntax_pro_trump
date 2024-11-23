@@ -1,13 +1,14 @@
 import streamlit as st
 import os
+from src.Settings import *
 
-def gestion_archivos():
+def gestion_archivos(lista_archivos_extra):
     # Sección 1: Carga de Archivos
     st.title("Gestion de archivos")
 
-    input_folder = 'docs/inputs'  # Asegúrate de que la carpeta existe
+    input_folder = BASE_PATH  # Asegúrate de que la carpeta existe
 
-    # Inicializar una lista vacía para almacenar los archivos .xlsx
+    # Utilizamos esta lista para imprimir los archivos cargados al SNIES EXTRACTOR
     default_files = []
 
     # Recorrer cada archivo en la carpeta
@@ -26,8 +27,17 @@ def gestion_archivos():
 
     st.subheader("Carga de Archivos")
     uploaded_file = st.file_uploader("Subir archivos", type="xlsx")
-    if uploaded_file:
-        default_files.append(uploaded_file)
+    if uploaded_file is not None:
+        ruta_archivo = os.path.join(BASE_PATH, uploaded_file.name)
+        lista_archivos_extra.append(ruta_archivo)
+        with open(ruta_archivo, "wb") as nuevo_archivo:
+            nuevo_archivo.write(uploaded_file.getbuffer())
 
-gestion_archivos()
+    if st.button("Desea borrar los archivos adicionales?"):
+        for ruta in lista_archivos_extra:
+            if os.path.exists(ruta):
+                os.remove(ruta)
+        lista_archivos_extra.clear()
+
+gestion_archivos(st.session_state.lista_archivos_extra)
 
