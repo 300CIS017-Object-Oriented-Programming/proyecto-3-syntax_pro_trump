@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 from src.Settings import *
 
 from src.SNIESController import SNIESController
@@ -12,6 +13,9 @@ def iniciar_programa():
 
     if 'lista_archivos' not in st.session_state:
         st.session_state.lista_archivos_extra = []
+
+    if 'ruta_directorio' not in st.session_state:
+        st.session_state.ruta_directorio = os.path.dirname(os.path.abspath(__file__))
 
     # Set page title, icon, layout wide (more used space in central area) and sidebar initial state
     st.set_page_config(page_title="SNIES_EXTRACTOR", page_icon="🕹️", layout="wide",
