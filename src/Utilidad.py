@@ -18,9 +18,9 @@ class Utilidad:
 
 
 LISTA_DIRECCIONES = [
-        "D:/ProyectoPOO/proyecto-3-syntax_pro_trump/docs/inputs/admitidos",
-        "D:/ProyectoPOO/proyecto-3-syntax_pro_trump/docs/inputs/graduados",
-        "D:/ProyectoPOO/proyecto-3-syntax_pro_trump/docs/inputs/inscritos",
-        "D:/ProyectoPOO/proyecto-3-syntax_pro_trump/docs/inputs/matriculados",
-        "D:/ProyectoPOO/proyecto-3-syntax_pro_trump/docs/inputs/matriculadosPrimerCurso"
+        "D:/POO/proyecto-3-syntax_pro_trump/docs/inputs/admitidos",
+        "D:/POO/proyecto-3-syntax_pro_trump/docs/inputs/graduados",
+        "D:/POO/proyecto-3-syntax_pro_trump/docs/inputs/inscritos",
+        "D:/POO/proyecto-3-syntax_pro_trump/docs/inputs/matriculados",
+        "D:/POO/proyecto-3-syntax_pro_trump/docs/inputs/matriculadosPrimerCurso"
     ]
