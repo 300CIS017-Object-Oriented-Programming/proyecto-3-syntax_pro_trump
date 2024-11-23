@@ -6,8 +6,8 @@ from src.SNIESController import SNIESController
 def iniciar_programa():
 
     # Asigna el sistema como variable de instancia y en session_state para persistencia
-    if 'sistema' not in st.session_state:
-        st.session_state.sistema = SNIESController()
+    if 'controlador' not in st.session_state:
+        st.session_state.controlador = SNIESController()
 
     # Set page title, icon, layout wide (more used space in central area) and sidebar initial state
     st.set_page_config(page_title="Aplicación de Gestión de Reservas", page_icon="🕹️", layout="wide",
