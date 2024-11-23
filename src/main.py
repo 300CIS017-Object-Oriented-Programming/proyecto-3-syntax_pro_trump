@@ -1,7 +1,7 @@
 #Esto es para probar
 
-from SNIESController import SNIESController
-from src.GestorArchivos import GestorArchivos
+from SNIESController import *
+from src.GestorArchivos import *
 import pandas as pd
 controller = SNIESController()
 leer = GestorArchivos()
