@@ -19,7 +19,7 @@ class GestorArchivos:
                 df = pd.read_excel(ruta_archivo)  # Cambia si las columnas relevantes están en un rango específico.
                 df_palabra_clave = df[df["PROGRAMA ACADÉMICO"].str.contains(palabra_clave, case=False, na=False)]
                 columnas_predeterminadas = ["CÓDIGO SNIES DEL PROGRAMA", "METODOLOGÍA", "PROGRAMA ACADÉMICO", "INSTITUCIÓN DE EDUCACIÓN SUPERIOR (IES)",
-                                            "PRINCIPAL O SECCIONAL","DEPARTAMENTO DE DOMICILIO DE LA IES", "MUNICIPIO DE DOMICILIO DE LA IES", "NIVEL DE FORMACIÓN", "AÑO", "SEMESTRE"]
+                                            "PRINCIPAL O SECCIONAL","DEPARTAMENTO DE DOMICILIO DE LA IES", "MUNICIPIO DE DOMICILIO DE LA IES", "NIVEL DE FORMACIÓN", "SEMESTRE"]
                 ultima_columna_nombre = df.columns[-1]
                 ultima_columna = df_palabra_clave[ultima_columna_nombre]
                 df_filtrado = df_palabra_clave[columnas_predeterminadas]
@@ -28,7 +28,7 @@ class GestorArchivos:
             else:
                 df = pd.read_excel(ruta_archivo)  # Cambia si las columnas relevantes están en un rango específico.
                 df_palabra_clave = df[df["PROGRAMA ACADÉMICO"].str.contains(palabra_clave, case=False, na=False)]
-                columnas_predeterminadas = ["CÓDIGO SNIES DEL PROGRAMA", "AÑO", "SEMESTRE"]
+                columnas_predeterminadas = ["CÓDIGO SNIES DEL PROGRAMA", "SEMESTRE"]
                 ultima_columna_nombre = df.columns[-1]
                 ultima_columna = df_palabra_clave[ultima_columna_nombre]
                 df_filtrado = df_palabra_clave[columnas_predeterminadas]

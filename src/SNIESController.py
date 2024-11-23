@@ -23,54 +23,35 @@ class SNIESController:
         try:
             # Generar lista de años
             anios = self.generar_anios_busqueda(anio1, anio2)
-            # Iterar por los archivos adicionales
-            flag = True
-            flag2 = True
 
+            # Iterar por los archivos para leerlos
+            primer_archivo = True
             for anio in anios:
-                #FIXME: poner bandera para solo hacer el merge con el primer archivo de un año
                 for direccion in LISTA_DIRECCIONES:
-                    if flag2:
-                        # Leer el primer archivo
-                        self.df = lector.leer_archivo(LISTA_DIRECCIONES[0] + anios[0] + ".xlsx", palabra_clave, False)
+                    # Leer archivo para el año actual
+                    ruta_archivo = direccion + anio + ".xlsx"
+                    df_filtrado = lector.leer_archivo(ruta_archivo, palabra_clave, (not primer_archivo))
 
-                        # Convertir columnas clave a tipo string
-                        self.df["CÓDIGO SNIES DEL PROGRAMA"] = self.df["CÓDIGO SNIES DEL PROGRAMA"].astype(str)
-                        self.df["SEMESTRE"] = self.df["SEMESTRE"].astype(str)
-                        self.df["AÑO"] = self.df["AÑO"].astype(str)
+                    # Convertir columnas clave a tipo string
+                    df_filtrado["CÓDIGO SNIES DEL PROGRAMA"] = df_filtrado["CÓDIGO SNIES DEL PROGRAMA"].astype(str)
+                    df_filtrado["SEMESTRE"] = df_filtrado["SEMESTRE"].astype(str)
 
-                        flag2 = False
+                    #Si es el primer archivo renombramos solo la columna de ADMITIDOS
+                    if primer_archivo:
+                        df_filtrado.rename(columns={'ADMITIDOS' : f'ADMITIDOS_{anio}'}, inplace = True)
+                        self.df = df_filtrado
+                        primer_archivo = False
                     else:
-                        # Leer archivo para el año actual
-                        ruta_archivo = direccion + anio + ".xlsx"
-                        df_filtrado = lector.leer_archivo(ruta_archivo, palabra_clave, True)
+                        for col in df_filtrado.columns:
+                            if not ((col == "CÓDIGO SNIES DEL PROGRAMA") or (col == "SEMESTRE")):
+                                df_filtrado.rename(columns={col : f'{col}_{anio}'}, inplace = True)
 
-                        # Convertir columnas clave a tipo string
-                        df_filtrado["CÓDIGO SNIES DEL PROGRAMA"] = df_filtrado["CÓDIGO SNIES DEL PROGRAMA"].astype(str)
-                        df_filtrado["SEMESTRE"] = df_filtrado["SEMESTRE"].astype(str)
-                        df_filtrado["AÑO"] = df_filtrado["AÑO"].astype(str)
-
-                        # Realizar la fusión
-                        if anio == anios[0]:
-                            self.df = pd.merge(
-                                self.df, df_filtrado,
-                                on=["CÓDIGO SNIES DEL PROGRAMA", "SEMESTRE", "AÑO"],
-                                how="left",
-                                suffixes=("", f"_{anio}")
-                            )
-                        else:
-                            self.df = pd.merge(
-                                self.df, df_filtrado,
-                                on=["CÓDIGO SNIES DEL PROGRAMA", "SEMESTRE"],
-                                how="left",
-                                suffixes=("", f"_{anio}")
-                            )
-
-                        # Renombrar las columnas duplicadas (agregar el año como sufijo)
-                        columnas_duplicadas = [col for col in self.df.columns if col.endswith(f"_{anio}")]
-                        for col in columnas_duplicadas:
-                            nuevo_nombre = f"{col.split('_')[0]}_{anio}"  # Nombre base + año
-                            self.df.rename(columns={col: nuevo_nombre}, inplace=True)
+                        self.df = pd.merge(
+                            self.df, df_filtrado,
+                            on=["CÓDIGO SNIES DEL PROGRAMA", "SEMESTRE"],
+                            how="left"
+                            #suffixes=("", f"_{anio}")
+                        )
 
             return self.df
 
