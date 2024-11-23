@@ -1,8 +1,7 @@
-from src.Utilidad import *
 import pandas as pd
 from src.GestorArchivos import *
+from src.Settings import *
 
-ut = Utilidad()
 lector = GestorArchivos()
 class SNIESController:
     def __init__(self):
