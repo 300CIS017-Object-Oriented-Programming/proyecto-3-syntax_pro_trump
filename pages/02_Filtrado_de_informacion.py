@@ -52,6 +52,9 @@ def filtrado_de_info(controlador):
             # Mostrar el DataFrame filtrado en la tabla
             st.write(df_filtrado)
 
+            if st.button("Actualizar datos"):
+                controlador.set_df(df_filtrado)
+
             # Botón para exportar la selección
             if st.button("Exportar Selección a Excel"):
                 df_filtrado.to_excel("programas_seleccionados.xlsx", index=False)

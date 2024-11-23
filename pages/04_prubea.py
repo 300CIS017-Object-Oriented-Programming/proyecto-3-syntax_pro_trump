@@ -64,16 +64,40 @@ def gestion_archivos2():
     # Sección 3: Visualización de Datos
     st.subheader("Visualización de Datos")
 
+    st.title("Comparación de Admitidos entre Años por Programa Académico")
+
+    # Sección para selección de programas
+    programas = filtered_df["PROGRAMA ACADÉMICO"].unique()
+    programas_seleccionados = st.multiselect(
+        "Seleccione los programas académicos que desea comparar:",
+        options=programas,
+        default=programas
+    )
     # Asegurarse de que hay datos para graficar
     if not filtered_df.empty:
-        fig = px.bar(filtered_df, x="AÑO", y="ADMITIDOS", color="PROGRAMA ACADÉMICO", barmode="group")
-        fig.update_layout(
-            xaxis=dict(
-                dtick=1,  # Esto asegura que el eje X solo tendrá valores enteros, de 1 en 1
-                tickmode="linear"  # Esto asegura que los ticks sean lineales y no fraccionados
-            )
+        df_filtered = filtered_df[filtered_df["PROGRAMA ACADÉMICO"].isin(programas_seleccionados)]
+
+        # Crear el gráfico usando Plotly
+        fig = px.line(
+            df_filtered,
+            x="AÑO", y="ADMITIDOS",
+            color="PROGRAMA ACADÉMICO",
+            markers=True,
+            labels={"AÑO": "Año", "ADMITIDOS": "Número de Admitidos", "PROGRAMA ACADÉMICO": "Programa Académico"}
         )
-        st.plotly_chart(fig)
+
+        # Configurar el diseño del gráfico
+        fig.update_layout(
+            title="Admitidos por Año para Programas Seleccionados",
+            xaxis_title="Año",
+            yaxis_title="Número de Admitidos",
+            legend_title="Programa Académico",
+            template="plotly_white"
+        )
+
+        # Mostrar el gráfico en Streamlit
+        st.plotly_chart(fig, use_container_width=True)
+
     else:
         st.write("No hay datos para mostrar según los filtros aplicados.")
 
