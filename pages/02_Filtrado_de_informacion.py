@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 
 from src.Settings import STR_PROGRAMA_ACADEMICO, STR_NOMBRE_IES, STR_CODIGO_SNIES, STR_DEPARTAMENTO, STR_MUNICIPIO, \
-    OUTPUT_PATH
+    OUTPUT_PATH, STR_TIPO_IES
 
 
 def filtrado_de_info(controlador):
@@ -37,7 +37,7 @@ def filtrado_de_info(controlador):
 
         # Mostrar tabla con checkboxes para cada programa
         for index, row in df_unique.iterrows():
-            if st.checkbox(f"{row[STR_PROGRAMA_ACADEMICO]} - {row[STR_NOMBRE_IES]} - {row[STR_NOMBRE_IES]}"
+            if st.checkbox(f"{row[STR_PROGRAMA_ACADEMICO]} - {row[STR_NOMBRE_IES]} - {row[STR_TIPO_IES]}"
                            f" (Código SNIES: {row[STR_CODIGO_SNIES]}, Departameto: {row[STR_DEPARTAMENTO]}, Municipio: {row[STR_MUNICIPIO]})", key=index):
                 selected_programs.append(row.to_dict())
 
