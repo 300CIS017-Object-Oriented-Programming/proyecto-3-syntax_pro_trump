@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+from src.Settings import STR_PROGRAMA_ACADEMICO, STR_NOMBRE_IES, STR_CODIGO_SNIES, STR_DEPARTAMENTO, STR_MUNICIPIO, \
+    OUTPUT_PATH
 
 
 def filtrado_de_info(controlador):
@@ -35,16 +37,16 @@ def filtrado_de_info(controlador):
 
         # Mostrar tabla con checkboxes para cada programa
         for index, row in df_unique.iterrows():
-            if st.checkbox(f"{row['PROGRAMA ACADÉMICO']} - {row['INSTITUCIÓN DE EDUCACIÓN SUPERIOR (IES)']} - {row['PRINCIPAL O SECCIONAL']}"
-                           f" (Código SNIES: {row['CÓDIGO SNIES DEL PROGRAMA']} Departameto: {row['DEPARTAMENTO DE DOMICILIO DE LA IES']} Municipio: {row['MUNICIPIO DE DOMICILIO DE LA IES']})", key=index):
+            if st.checkbox(f"{row[STR_PROGRAMA_ACADEMICO]} - {row[STR_NOMBRE_IES]} - {row[STR_NOMBRE_IES]}"
+                           f" (Código SNIES: {row[STR_CODIGO_SNIES]}, Departameto: {row[STR_DEPARTAMENTO]}, Municipio: {row[STR_MUNICIPIO]})", key=index):
                 selected_programs.append(row.to_dict())
 
         # Mostrar los programas seleccionados
         if selected_programs:
-            st.subheader("Programas Seleccionados (Incluyendo Semestres)")
+            st.subheader("Programas Seleccionados")
 
             # Filtrar el DataFrame original por los programas seleccionados
-            criterios = [(df['CÓDIGO SNIES DEL PROGRAMA'] == p['CÓDIGO SNIES DEL PROGRAMA'])
+            criterios = [(df[STR_CODIGO_SNIES] == p[STR_CODIGO_SNIES])
                          for p in selected_programs]
             filtro = pd.concat(criterios, axis=1).any(axis=1)
             df_filtrado = df[filtro]
@@ -57,7 +59,7 @@ def filtrado_de_info(controlador):
 
             # Botón para exportar la selección
             if st.button("Exportar Selección a Excel"):
-                df_filtrado.to_excel("programas_seleccionados.xlsx", index=False)
+                df_filtrado.to_excel(OUTPUT_PATH + "programas_seleccionados.xlsx", index=False)
                 st.success("¡Archivo Excel generado con éxito!")
 
 

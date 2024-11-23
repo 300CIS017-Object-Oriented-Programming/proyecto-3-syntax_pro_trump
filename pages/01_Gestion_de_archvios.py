@@ -4,7 +4,6 @@ import os
 def gestion_archivos():
     # Sección 1: Carga de Archivos
     st.title("Gestion de archivos")
-    st.subheader("Archivos disponibles")
 
     input_folder = 'docs/inputs'  # Asegúrate de que la carpeta existe
 

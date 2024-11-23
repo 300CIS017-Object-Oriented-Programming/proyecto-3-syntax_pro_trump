@@ -2,16 +2,20 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+from src.Settings import STR_CODIGO_SNIES, STR_METODOLOGIA, STR_PROGRAMA_ACADEMICO, STR_NOMBRE_IES, STR_TIPO_IES, \
+    STR_DEPARTAMENTO, STR_MUNICIPIO, STR_NIVEL_FORMACION, STR_ADMITIDOS, STR_GRADUADOS, STR_INSCRITOS, STR_MATRICULADOS, \
+    STR_PRIMER_CURSO
+
+
 def graficas_anios(controlador):
 
     df = controlador.get_df()
-    columnas_predeterminadas = ["CÓDIGO SNIES DEL PROGRAMA", "METODOLOGÍA", "PROGRAMA ACADÉMICO",
-                                "INSTITUCIÓN DE EDUCACIÓN SUPERIOR (IES)",
-                                "PRINCIPAL O SECCIONAL", "DEPARTAMENTO DE DOMICILIO DE LA IES",
-                                "MUNICIPIO DE DOMICILIO DE LA IES", "NIVEL DE FORMACIÓN"]
+    columnas_predeterminadas = [STR_CODIGO_SNIES, STR_METODOLOGIA, STR_PROGRAMA_ACADEMICO,
+                                STR_NOMBRE_IES, STR_TIPO_IES, STR_DEPARTAMENTO,
+                                STR_MUNICIPIO, STR_NIVEL_FORMACION]
     df_original = df.groupby(columnas_predeterminadas).sum(numeric_only=True).reset_index()
     keyword = st.selectbox("Archivos disponibles",
-                           options=["ADMITIDOS", "GRADUADOS", "INSCRITOS", "MATRICULADOS", "PRIMER CURSO"])
+                           options=[STR_ADMITIDOS, STR_GRADUADOS, STR_INSCRITOS, STR_MATRICULADOS, STR_PRIMER_CURSO])
 
     if keyword:
         # Identificar dinámicamente las columnas relevantes para la palabra clave seleccionada
@@ -21,13 +25,13 @@ def graficas_anios(controlador):
             st.warning(f"No se encontraron datos para '{keyword}'.")
         else:
             # Incluir las columnas clave adicionales
-            columnas_relevantes = ["CÓDIGO SNIES DEL PROGRAMA", "PROGRAMA ACADÉMICO"] + columnas_relevantes
+            columnas_relevantes = [STR_CODIGO_SNIES, STR_PROGRAMA_ACADEMICO] + columnas_relevantes
             df_filtrado = df_original[columnas_relevantes]
 
             # Reorganizar el DataFrame en formato largo
             df_long = pd.melt(
                 df_filtrado,
-                id_vars=["CÓDIGO SNIES DEL PROGRAMA", "PROGRAMA ACADÉMICO"],
+                id_vars=[STR_CODIGO_SNIES, STR_PROGRAMA_ACADEMICO],
                 value_vars=columnas_relevantes[2:],
                 var_name=f"AÑO_{keyword}",
                 value_name=keyword
@@ -43,8 +47,7 @@ def graficas_anios(controlador):
             st.title(f"Comparación de {keyword} entre Años por Programa Académico")
 
             # Crear identificadores únicos para cada programa académico basado en CÓDIGO SNIES
-            df_long["IDENTIFICADOR"] = df_long["PROGRAMA ACADÉMICO"] + " (SNIES: " + df_long["CÓDIGO SNIES DEL PROGRAMA"].astype(
-                str) + ")"
+            df_long["IDENTIFICADOR"] = df_long[STR_PROGRAMA_ACADEMICO] + " (SNIES: " + df_long[STR_CODIGO_SNIES].astype(str) + ")"
 
             # Selección de programas académicos
             programas = df_long["IDENTIFICADOR"].unique()
