@@ -1,4 +1,5 @@
 import pandas as pd
+from src.Settings import *
 
 class GestorArchivos:
     def leer_archivo(self, ruta_archivo, palabra_clave, unico_dato):
@@ -17,9 +18,9 @@ class GestorArchivos:
             if not unico_dato:
                 # Leer el archivo Excel con solo las columnas necesarias al inicio
                 df = pd.read_excel(ruta_archivo)  # Cambia si las columnas relevantes están en un rango específico.
-                df_palabra_clave = df[df["PROGRAMA ACADÉMICO"].str.contains(palabra_clave, case=False, na=False)]
-                columnas_predeterminadas = ["CÓDIGO SNIES DEL PROGRAMA", "METODOLOGÍA", "PROGRAMA ACADÉMICO", "INSTITUCIÓN DE EDUCACIÓN SUPERIOR (IES)",
-                                            "PRINCIPAL O SECCIONAL","DEPARTAMENTO DE DOMICILIO DE LA IES", "MUNICIPIO DE DOMICILIO DE LA IES", "NIVEL DE FORMACIÓN", "SEMESTRE"]
+                df_palabra_clave = df[df[STR_PROGRAMA_ACADEMICO].str.contains(palabra_clave, case=False, na=False)]
+                columnas_predeterminadas = [STR_CODIGO_SNIES, STR_METODOLOGIA, STR_PROGRAMA_ACADEMICO, STR_NOMBRE_IES,
+                                            STR_TIPO_IES, STR_DEPARTAMENTO, STR_MUNICIPIO, STR_NIVEL_FORMACION, STR_SEMESTRE]
                 ultima_columna_nombre = df.columns[-1]
                 ultima_columna = df_palabra_clave[ultima_columna_nombre]
                 df_filtrado = df_palabra_clave[columnas_predeterminadas]
@@ -27,8 +28,8 @@ class GestorArchivos:
                 df_consolidado = df_filtrado.groupby(columnas_predeterminadas).sum(numeric_only=True).reset_index()
             else:
                 df = pd.read_excel(ruta_archivo)  # Cambia si las columnas relevantes están en un rango específico.
-                df_palabra_clave = df[df["PROGRAMA ACADÉMICO"].str.contains(palabra_clave, case=False, na=False)]
-                columnas_predeterminadas = ["CÓDIGO SNIES DEL PROGRAMA", "SEMESTRE"]
+                df_palabra_clave = df[df[STR_PROGRAMA_ACADEMICO].str.contains(palabra_clave, case=False, na=False)]
+                columnas_predeterminadas = [STR_CODIGO_SNIES, STR_SEMESTRE]
                 ultima_columna_nombre = df.columns[-1]
                 ultima_columna = df_palabra_clave[ultima_columna_nombre]
                 df_filtrado = df_palabra_clave[columnas_predeterminadas]

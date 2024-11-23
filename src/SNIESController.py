@@ -1,8 +1,7 @@
-from src.Utilidad import *
 import pandas as pd
 from src.GestorArchivos import *
+from src.Settings import *
 
-ut = Utilidad()
 lector = GestorArchivos()
 class SNIESController:
     def __init__(self):
@@ -33,24 +32,23 @@ class SNIESController:
                     df_filtrado = lector.leer_archivo(ruta_archivo, palabra_clave, (not primer_archivo))
 
                     # Convertir columnas clave a tipo string
-                    df_filtrado["CÓDIGO SNIES DEL PROGRAMA"] = df_filtrado["CÓDIGO SNIES DEL PROGRAMA"].astype(str)
-                    df_filtrado["SEMESTRE"] = df_filtrado["SEMESTRE"].astype(str)
+                    df_filtrado[STR_CODIGO_SNIES] = df_filtrado[STR_CODIGO_SNIES].astype(str)
+                    df_filtrado[STR_SEMESTRE] = df_filtrado[STR_SEMESTRE].astype(str)
 
                     #Si es el primer archivo renombramos solo la columna de ADMITIDOS
                     if primer_archivo:
-                        df_filtrado.rename(columns={'ADMITIDOS' : f'ADMITIDOS_{anio}'}, inplace = True)
+                        df_filtrado.rename(columns={STR_ADMITIDOS : f'{STR_ADMITIDOS}_{anio}'}, inplace = True)
                         self.df = df_filtrado
                         primer_archivo = False
                     else:
                         for col in df_filtrado.columns:
-                            if not ((col == "CÓDIGO SNIES DEL PROGRAMA") or (col == "SEMESTRE")):
+                            if not ((col == STR_CODIGO_SNIES) or (col == STR_SEMESTRE)):
                                 df_filtrado.rename(columns={col : f'{col}_{anio}'}, inplace = True)
 
                         self.df = pd.merge(
                             self.df, df_filtrado,
-                            on=["CÓDIGO SNIES DEL PROGRAMA", "SEMESTRE"],
+                            on=[STR_CODIGO_SNIES, STR_SEMESTRE],
                             how="left"
-                            #suffixes=("", f"_{anio}")
                         )
 
             return self.df
