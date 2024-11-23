@@ -13,7 +13,7 @@ def graficas_anios(controlador):
 
     if df_original is not None:
 
-        keyword = st.selectbox("Archivos disponibles",
+        keyword = st.selectbox("Seleccione la métrica para analizar:",
                                options=[STR_ADMITIDOS, STR_GRADUADOS, STR_INSCRITOS, STR_MATRICULADOS, STR_PRIMER_CURSO])
 
         if keyword:
