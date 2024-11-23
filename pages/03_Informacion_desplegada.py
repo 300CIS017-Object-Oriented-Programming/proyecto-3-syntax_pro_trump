@@ -4,8 +4,12 @@ import plotly.express as px
 
 def graficas_anios(controlador):
 
-    df_original = controlador.get_df()
-
+    df = controlador.get_df()
+    columnas_predeterminadas = ["CÓDIGO SNIES DEL PROGRAMA", "METODOLOGÍA", "PROGRAMA ACADÉMICO",
+                                "INSTITUCIÓN DE EDUCACIÓN SUPERIOR (IES)",
+                                "PRINCIPAL O SECCIONAL", "DEPARTAMENTO DE DOMICILIO DE LA IES",
+                                "MUNICIPIO DE DOMICILIO DE LA IES", "NIVEL DE FORMACIÓN"]
+    df_original = df.groupby(columnas_predeterminadas).sum(numeric_only=True).reset_index()
     keyword = st.selectbox("Archivos disponibles",
                            options=["ADMITIDOS", "GRADUADOS", "INSCRITOS", "MATRICULADOS", "PRIMER CURSO"])
 
@@ -17,13 +21,13 @@ def graficas_anios(controlador):
             st.warning(f"No se encontraron datos para '{keyword}'.")
         else:
             # Incluir las columnas clave adicionales
-            columnas_relevantes = ["CÓDIGO SNIES", "PROGRAMA ACADÉMICO"] + columnas_relevantes
+            columnas_relevantes = ["CÓDIGO SNIES DEL PROGRAMA", "PROGRAMA ACADÉMICO"] + columnas_relevantes
             df_filtrado = df_original[columnas_relevantes]
 
             # Reorganizar el DataFrame en formato largo
             df_long = pd.melt(
                 df_filtrado,
-                id_vars=["CÓDIGO SNIES", "PROGRAMA ACADÉMICO"],
+                id_vars=["CÓDIGO SNIES DEL PROGRAMA", "PROGRAMA ACADÉMICO"],
                 value_vars=columnas_relevantes[2:],
                 var_name=f"AÑO_{keyword}",
                 value_name=keyword
@@ -39,7 +43,7 @@ def graficas_anios(controlador):
             st.title(f"Comparación de {keyword} entre Años por Programa Académico")
 
             # Crear identificadores únicos para cada programa académico basado en CÓDIGO SNIES
-            df_long["IDENTIFICADOR"] = df_long["PROGRAMA ACADÉMICO"] + " (SNIES: " + df_long["CÓDIGO SNIES"].astype(
+            df_long["IDENTIFICADOR"] = df_long["PROGRAMA ACADÉMICO"] + " (SNIES: " + df_long["CÓDIGO SNIES DEL PROGRAMA"].astype(
                 str) + ")"
 
             # Selección de programas académicos
