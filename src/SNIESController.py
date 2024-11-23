@@ -18,6 +18,7 @@ class SNIESController:
 
         Returns:
             pd.DataFrame: DataFrame combinado con los datos procesados.
+            :param lista_direcciones:
         """
         try:
             # Generar lista de años
@@ -85,9 +86,3 @@ class SNIESController:
             anos_busqueda.append(str(anio_actual))
 
         return anos_busqueda
-
-
-                
-
-
-
