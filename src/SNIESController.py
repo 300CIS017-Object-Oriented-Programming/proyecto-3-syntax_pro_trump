@@ -8,7 +8,7 @@ class SNIESController:
         self.df = None
         self.df_junto = None
 
-    def procesar_datos(self, anio1, anio2, palabra_clave):
+    def procesar_datos(self, anio1, anio2, palabra_clave, dict_archivos_extra):
         """
         Procesa datos de múltiples archivos Excel y los combina en un único DataFrame.
 
@@ -31,7 +31,7 @@ class SNIESController:
                 for direccion in LISTA_DIRECCIONES:
                     # Leer archivo para el año actual
                     ruta_archivo = direccion + anio + ".xlsx"
-                    df_filtrado = lector.leer_archivo(ruta_archivo, palabra_clave, (not primer_archivo))
+                    df_filtrado = lector.leer_archivo(ruta_archivo, palabra_clave, (not primer_archivo), dict_archivos_extra)
 
                     # Convertir columnas clave a tipo string
                     df_filtrado[STR_CODIGO_SNIES] = df_filtrado[STR_CODIGO_SNIES].astype(str)

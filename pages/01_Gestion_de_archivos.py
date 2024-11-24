@@ -1,9 +1,8 @@
 import streamlit as st
 import os
 from src.Settings import *
-from src.GestorArchivos import eliminarArchivos
 
-def gestion_archivos(lista_archivos_extra):
+def gestion_archivos(dict_archivos_extra):
     # Sección 1: Carga de Archivos
     st.title("Gestion de archivos")
 
@@ -19,6 +18,15 @@ def gestion_archivos(lista_archivos_extra):
             # Si es así, agregarlo a la lista default_files
             default_files.append(f)
 
+    #Recorrer cada archivo en los adicionales
+    for key in dict_archivos_extra:
+        archivo_temporal = dict_archivos_extra[key]
+        ruta_extra = archivo_temporal.name
+        # Comprobar si el archivo tiene la extensión .xlsx
+        if ruta_extra.endswith('.xlsx'):
+            # Si es así, agregarlo a la lista default_files
+            default_files.append(ruta_extra)
+
     # Mostrar los archivos disponibles en un selectbox o multiselect
     st.title("Archivos Disponibles en 'inputs'")
     st.info(
@@ -30,12 +38,7 @@ def gestion_archivos(lista_archivos_extra):
     uploaded_file = st.file_uploader("Subir archivos", type="xlsx")
     if uploaded_file is not None:
         ruta_archivo = BASE_PATH + "/" + uploaded_file.name
-        lista_archivos_extra.append(ruta_archivo)
-        with open(ruta_archivo, "wb") as nuevo_archivo:
-            nuevo_archivo.write(uploaded_file.getbuffer())
+        dict_archivos_extra[ruta_archivo] = uploaded_file
 
-    if st.button("Desea borrar los archivos adicionales?"):
-        eliminarArchivos(lista_archivos_extra)
-
-gestion_archivos(st.session_state.lista_archivos_extra)
+gestion_archivos(st.session_state.dict_archivos_extra)
 

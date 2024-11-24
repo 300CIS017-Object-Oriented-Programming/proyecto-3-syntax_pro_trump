@@ -1,6 +1,4 @@
 import streamlit as st
-import atexit
-from src.GestorArchivos import eliminarArchivos
 from src.SNIESController import SNIESController
 
 def iniciar_programa():
@@ -8,8 +6,8 @@ def iniciar_programa():
     if 'controlador' not in st.session_state:
         st.session_state.controlador = SNIESController()
 
-    if 'lista_archivos' not in st.session_state:
-        st.session_state.lista_archivos_extra = []
+    if 'dict_archivos_extra' not in st.session_state:
+        st.session_state.dict_archivos_extra = {}
 
     # Set page title, icon, layout wide (more used space in central area) and sidebar initial state
     st.set_page_config(page_title="SNIES_EXTRACTOR", page_icon="🕹️", layout="wide",
