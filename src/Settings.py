@@ -22,3 +22,11 @@ STR_GRADUADOS = "GRADUADOS"
 STR_INSCRITOS = "INSCRITOS"
 STR_MATRICULADOS = "MATRICULADOS"
 STR_PRIMER_CURSO = "PRIMER CURSO"
+
+ARCHIVOS_NECESARIOS = {
+        LISTA_DIRECCIONES[0] : "admitidos",
+        LISTA_DIRECCIONES[1] : "graduados",
+        LISTA_DIRECCIONES[2] : "inscritos",
+        LISTA_DIRECCIONES[3] : "matriculados",
+        LISTA_DIRECCIONES[4] : "matriculadosPrimerCurso"
+}

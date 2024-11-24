@@ -14,8 +14,14 @@ def filtrado_de_info(controlador, dict_archivos_extra):
 
     # Botón para realizar la búsqueda
     if st.button("Realizar primera búsqueda"):
-        controlador.procesar_datos(years[0], years[1], keyword, dict_archivos_extra)
-        st.session_state["busqueda_realizada"] = True  # Marcar como realizada
+        try:
+            controlador.procesar_datos(years[0], years[1], keyword, dict_archivos_extra)
+            st.session_state["busqueda_realizada"] = True  # Marcar como realizada
+        except FileNotFoundError as e:
+            st.warning(f"Error al procesar los datos. \n {e}")
+        except Exception as e:
+            st.warning("Error inesperado. Fijese si los archivos subidos tienen buen formato. Si el error persiste"
+                       + f" comuníquese con el soporte técnico y muestreles este mensaje de error: {e}")
 
     # Verificar si ya se realizó la búsqueda
     if st.session_state.get("busqueda_realizada", False):

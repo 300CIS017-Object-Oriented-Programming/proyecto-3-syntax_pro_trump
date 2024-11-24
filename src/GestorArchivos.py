@@ -45,6 +45,8 @@ class GestorArchivos:
 
 
             return df_consolidado
+        except FileNotFoundError:
+            raise FileNotFoundError
         except Exception as e:
             print(f"Error al procesar el archivo: {e}")
             return pd.DataFrame()

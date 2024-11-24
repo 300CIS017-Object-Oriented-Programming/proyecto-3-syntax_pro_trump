@@ -21,6 +21,8 @@ class SNIESController:
             pd.DataFrame: DataFrame combinado con los datos procesados.
             :param lista_direcciones:
         """
+        direccion_actual = ""
+        anio_actual = ""
         try:
             # Generar lista de años
             anios = self.generar_anios_busqueda(anio1, anio2)
@@ -28,8 +30,10 @@ class SNIESController:
             # Iterar por los archivos para leerlos
             primer_archivo = True
             for anio in anios:
+                anio_actual = anio
                 for direccion in LISTA_DIRECCIONES:
                     # Leer archivo para el año actual
+                    direccion_actual = direccion
                     ruta_archivo = direccion + anio + ".xlsx"
                     df_filtrado = lector.leer_archivo(ruta_archivo, palabra_clave, (not primer_archivo), dict_archivos_extra)
 
@@ -53,12 +57,10 @@ class SNIESController:
                             how="left"
                         )
 
-            return self.df
-
-
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Archivo necesario {ARCHIVOS_NECESARIOS[direccion_actual]}{anio_actual} no esta cargado al SNIES EXTRACTOR")
         except Exception as e:
-            print(f"Error al procesar los datos: {e}")
-            return pd.DataFrame()
+            raise Exception(f"Error al procesar los datos: {e}")
 
     #Funcion de prueba
     def mostrar(self):
