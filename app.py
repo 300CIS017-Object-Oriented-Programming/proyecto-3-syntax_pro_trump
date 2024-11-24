@@ -1,21 +1,15 @@
 import streamlit as st
-import os
-from src.Settings import *
-
+import atexit
+from src.GestorArchivos import eliminarArchivos
 from src.SNIESController import SNIESController
 
-
 def iniciar_programa():
-
     # Asigna el sistema como variable de instancia y en session_state para persistencia
     if 'controlador' not in st.session_state:
         st.session_state.controlador = SNIESController()
 
     if 'lista_archivos' not in st.session_state:
         st.session_state.lista_archivos_extra = []
-
-    if 'ruta_directorio' not in st.session_state:
-        st.session_state.ruta_directorio = os.path.dirname(os.path.abspath(__file__))
 
     # Set page title, icon, layout wide (more used space in central area) and sidebar initial state
     st.set_page_config(page_title="SNIES_EXTRACTOR", page_icon="🕹️", layout="wide",

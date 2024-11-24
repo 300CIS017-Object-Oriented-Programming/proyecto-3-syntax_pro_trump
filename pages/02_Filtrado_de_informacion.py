@@ -1,11 +1,11 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-
 from src.Settings import *
+from src.GestorArchivos import eliminarArchivos
 
 
-def filtrado_de_info(controlador):
+def filtrado_de_info(controlador, lista_archivos_extra):
     # Sección 1: Filtrado de Información
     st.subheader("Filtrado de programas por palabras clave")
     keyword = st.text_input("Buscar programas por palabras clave")
@@ -56,6 +56,8 @@ def filtrado_de_info(controlador):
             if st.button("Actualizar datos"):
                 controlador.set_df(df_filtrado)
                 controlador.set_df_junto(df_filtrado)
+                #eliminarArchivos(lista_archivos_extra)
+
 
             # Botón para exportar la selección
             if st.button("Exportar Selección a Excel"):
@@ -63,4 +65,4 @@ def filtrado_de_info(controlador):
                 st.success("¡Archivo Excel generado con éxito!")
 
 
-filtrado_de_info(st.session_state.controlador)
+filtrado_de_info(st.session_state.controlador, st.session_state.lista_archivos_extra)

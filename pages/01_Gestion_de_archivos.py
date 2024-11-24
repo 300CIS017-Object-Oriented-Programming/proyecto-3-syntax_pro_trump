@@ -1,8 +1,9 @@
 import streamlit as st
 import os
 from src.Settings import *
+from src.GestorArchivos import eliminarArchivos
 
-def gestion_archivos(lista_archivos_extra, ruta_directorio):
+def gestion_archivos(lista_archivos_extra):
     # Sección 1: Carga de Archivos
     st.title("Gestion de archivos")
 
@@ -27,7 +28,6 @@ def gestion_archivos(lista_archivos_extra, ruta_directorio):
 
     st.subheader("Carga de Archivos")
     uploaded_file = st.file_uploader("Subir archivos", type="xlsx")
-    #FIXME: Hacer el cambio para acceder a la ruta verdadera donde estan los archivos extra
     if uploaded_file is not None:
         ruta_archivo = BASE_PATH + "/" + uploaded_file.name
         lista_archivos_extra.append(ruta_archivo)
@@ -35,9 +35,7 @@ def gestion_archivos(lista_archivos_extra, ruta_directorio):
             nuevo_archivo.write(uploaded_file.getbuffer())
 
     if st.button("Desea borrar los archivos adicionales?"):
-        for ruta in lista_archivos_extra:
-            os.unlink(ruta)
-        lista_archivos_extra.clear()
+        eliminarArchivos(lista_archivos_extra)
 
-gestion_archivos(st.session_state.lista_archivos_extra, st.session_state.ruta_directorio)
+gestion_archivos(st.session_state.lista_archivos_extra)
 

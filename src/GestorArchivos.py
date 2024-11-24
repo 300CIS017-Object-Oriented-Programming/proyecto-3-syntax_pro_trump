@@ -1,5 +1,6 @@
 import pandas as pd
 from src.Settings import *
+import os
 
 class GestorArchivos:
     def leer_archivo(self, ruta_archivo, palabra_clave, unico_dato):
@@ -43,3 +44,9 @@ class GestorArchivos:
             return pd.DataFrame()
 
 
+#Funcion utilitaria fuera de la clase
+def eliminarArchivos(lista_archivos):
+    for ruta in lista_archivos:
+        if os.path.exists(ruta):
+            os.unlink(ruta)
+    lista_archivos.clear()
