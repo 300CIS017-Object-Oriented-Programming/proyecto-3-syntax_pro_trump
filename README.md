@@ -22,7 +22,11 @@ El programa abrirá una página web en su navegador dondé podrá interactuar co
 ```mermaid
 classDiagram
 direction TB
-    SNIESController ..> GestorArchivos
+    app ..> View_Streamlit : usa
+    View_Streamlit ..> SNIESController : usa
+    SNIESController ..> GestorArchivos : usa
+    GestorArchivos ..> Settings : usa
+    SNIESController ..> Settings : usa
 
     class GestorArchivos {
         leer_archivo()
@@ -37,6 +41,22 @@ direction TB
         get_df()
         get_df_junto()
         generar_anios_busqueda()
+        generar_excel()
+    }
+    
+    class Settings {
+        INFO_SETTINGS
+    }
+    
+    class View_Streamlit{
+        Page01 Gestion de Archivos
+        Page02 Filtrado de Informacion
+        Page03 Grafico de Lineas
+        Page04 Grafico de Comparacion
+    }
+    
+    class app {
+        iniciar_programa()
     }
 ```
 
