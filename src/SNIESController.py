@@ -1,6 +1,6 @@
-import pandas as pd
 from src.GestorArchivos import *
 from src.Settings import *
+import tempfile
 
 lector = GestorArchivos()
 class SNIESController:
@@ -99,3 +99,13 @@ class SNIESController:
             anos_busqueda.append(str(anio_actual))
 
         return anos_busqueda
+
+
+    def generar_excel(self, df):
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp:
+            df.to_excel(tmp.name, index=False, sheet_name="Datos", engine="openpyxl")
+            tmp.seek(0)  # Volver al inicio del archivo
+            return tmp.name
+
+
+

@@ -64,9 +64,16 @@ def filtrado_de_info(controlador, dict_archivos_extra):
 
 
             # Botón para exportar la selección
-            if st.button("Exportar Selección a Excel"):
-                df_filtrado.to_excel(OUTPUT_PATH + "/programas_seleccionados.xlsx", index=False)
-                st.success("¡Archivo Excel generado con éxito!")
+            archivo_excel = controlador.generar_excel(df_filtrado)
+
+            # Leer el archivo temporal para la descarga
+            with open(archivo_excel, "rb") as f:
+                st.download_button(
+                    label="Descargar archivo Excel",
+                    data=f,
+                    file_name="datos.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
 
 
 filtrado_de_info(st.session_state.controlador, st.session_state.dict_archivos_extra)
